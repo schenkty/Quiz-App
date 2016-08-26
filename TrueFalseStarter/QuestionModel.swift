@@ -32,6 +32,7 @@ let question5 = Question(question: "Are ducks a bird?", option: ["Yes", "No"], a
 var setOfQuestions = [question1, question2, question3, question4, question5]
 
 // This randomly pulls and returns a question Question from the setOfQuestions array
+// Want to rebuild the part below as I barrowed it from another project i found online
 func pullQuestion() -> Question {
     
     count += 1
