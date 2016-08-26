@@ -123,9 +123,9 @@ class ViewController: UIViewController {
         } else {
             // Continue game
             displayQuestion()
-            displayOptions()
             currentQuestion = pullQuestion()
             questionField.text = currentQuestion.question
+            displayOptions()
             playAgainButton.hidden = true
         }
     }
