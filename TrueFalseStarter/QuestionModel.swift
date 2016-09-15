@@ -53,7 +53,7 @@ func pullQuestion() -> Question {
         
         while (usedQuestions.contains(indexOfSelectedQuestions)) {
             
-            indexOfSelectedQuestions = GKRandomSource.sharedRandom().nextIntWithUpperBound(setOfQuestions.count)
+            indexOfSelectedQuestions = GKRandomSource.sharedRandom().nextInt(upperBound: setOfQuestions.count)
         }
     }
     

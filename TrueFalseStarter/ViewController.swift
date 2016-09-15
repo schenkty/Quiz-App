@@ -42,37 +42,37 @@ class ViewController: UIViewController {
     
     func displayQuestion() {
         questionField.text = currentQuestion.question
-        playAgainButton.hidden = true
+        playAgainButton.isHidden = true
         displayOptions()
         hideAllOptions(false)
     }
     
     func displayOptions() {
         if currentQuestion.option.count == 4 {
-            option1.setTitle(currentQuestion.option[0], forState: .Normal)
-            option2.setTitle(currentQuestion.option[1], forState: .Normal)
-            option3.setTitle(currentQuestion.option[2], forState: .Normal)
-            option4.setTitle(currentQuestion.option[3], forState: .Normal)
+            option1.setTitle(currentQuestion.option[0], for: UIControlState())
+            option2.setTitle(currentQuestion.option[1], for: UIControlState())
+            option3.setTitle(currentQuestion.option[2], for: UIControlState())
+            option4.setTitle(currentQuestion.option[3], for: UIControlState())
         } else if currentQuestion.option.count == 3 {
-            option1.setTitle(currentQuestion.option[0], forState: .Normal)
-            option2.setTitle(currentQuestion.option[1], forState: .Normal)
-            option3.setTitle(currentQuestion.option[2], forState: .Normal)
-            option4.hidden = true
+            option1.setTitle(currentQuestion.option[0], for: UIControlState())
+            option2.setTitle(currentQuestion.option[1], for: UIControlState())
+            option3.setTitle(currentQuestion.option[2], for: UIControlState())
+            option4.isHidden = true
         } else {
-            option1.setTitle(currentQuestion.option[0], forState: .Normal)
-            option2.setTitle(currentQuestion.option[1], forState: .Normal)
-            option3.hidden = true
-            option4.hidden = true
+            option1.setTitle(currentQuestion.option[0], for: UIControlState())
+            option2.setTitle(currentQuestion.option[1], for: UIControlState())
+            option3.isHidden = true
+            option4.isHidden = true
         }
     }
     
-    func hideAllOptions(boolean: Bool) {
+    func hideAllOptions(_ boolean: Bool) {
         
         let options: [UIButton] = [option1, option2, option3, option4]
         
         for option in options {
             
-            option.hidden = boolean
+            option.isHidden = boolean
         }
     }
     
@@ -81,7 +81,7 @@ class ViewController: UIViewController {
         hideAllOptions(true)
         
         // Display play again button
-        playAgainButton.hidden = false
+        playAgainButton.isHidden = false
         
         // Based the score message on percent in case the array of questions is increased
         let percent = correctQuestions * 100/questionsPerRound
@@ -93,7 +93,7 @@ class ViewController: UIViewController {
         
     }
     
-    @IBAction func checkAnswer(sender: UIButton) {
+    @IBAction func checkAnswer(_ sender: UIButton) {
         // Increment the questions asked counter
         questionsAsked += 1
         
@@ -126,7 +126,7 @@ class ViewController: UIViewController {
             currentQuestion = pullQuestion()
             questionField.text = currentQuestion.question
             displayOptions()
-            playAgainButton.hidden = true
+            playAgainButton.isHidden = true
         }
     }
     
@@ -141,22 +141,22 @@ class ViewController: UIViewController {
     
     // MARK: Helper Methods
     
-    func loadNextRoundWithDelay(seconds seconds: Int) {
+    func loadNextRoundWithDelay(seconds: Int) {
         // Converts a delay in seconds to nanoseconds as signed 64 bit integer
         let delay = Int64(NSEC_PER_SEC * UInt64(seconds))
         // Calculates a time value to execute the method given current time and delay
-        let dispatchTime = dispatch_time(DISPATCH_TIME_NOW, delay)
+        let dispatchTime = DispatchTime.now() + Double(delay) / Double(NSEC_PER_SEC)
         
         // Executes the nextRound method at the dispatch time on the main queue
-        dispatch_after(dispatchTime, dispatch_get_main_queue()) {
+        DispatchQueue.main.asyncAfter(deadline: dispatchTime) {
             self.nextRound()
         }
     }
     
     func loadGameStartSound() {
-        let pathToSoundFile = NSBundle.mainBundle().pathForResource("GameSound", ofType: "wav")
-        let soundURL = NSURL(fileURLWithPath: pathToSoundFile!)
-        AudioServicesCreateSystemSoundID(soundURL, &gameSound)
+        let pathToSoundFile = Bundle.main.path(forResource: "GameSound", ofType: "wav")
+        let soundURL = URL(fileURLWithPath: pathToSoundFile!)
+        AudioServicesCreateSystemSoundID(soundURL as CFURL, &gameSound)
     }
     
     func playGameStartSound() {
@@ -164,9 +164,9 @@ class ViewController: UIViewController {
     }
     
     func loadGameFalseSound() {
-        let pathToSoundFile = NSBundle.mainBundle().pathForResource("falseSound", ofType: "wav")
-        let soundURL = NSURL(fileURLWithPath: pathToSoundFile!)
-        AudioServicesCreateSystemSoundID(soundURL, &falseSound)
+        let pathToSoundFile = Bundle.main.path(forResource: "falseSound", ofType: "wav")
+        let soundURL = URL(fileURLWithPath: pathToSoundFile!)
+        AudioServicesCreateSystemSoundID(soundURL as CFURL, &falseSound)
     }
     
     func playGameFalseSound() {
