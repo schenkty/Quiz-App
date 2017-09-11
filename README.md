@@ -1,4 +1,4 @@
-# TrueFalseStarter
+# Quiz App
 # Treehouse TechDegree Project 2
 The starter files contain a Storyboard scene that is simulated to a 4.7 inch iPhone without any constraints to position elements. If you run the app in an iPhone 6/6s simulator, the layout looks fine but it breaks on any other device size. Convert the Storyboard back to a universal scene and add constraints to maintain the layout such all UI elements are sized and spaced appropriately for all iPhones 3, 4, 5, 6 and 6+.
 
